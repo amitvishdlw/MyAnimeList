@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyAnimeList">
         <activity
-            android:name=".AnimeListingActivity"
+            android:name=".presentation.animeListing.AnimeListingActivity"
             android:exported="true"
             android:theme="@style/Theme.MyAnimeList">
             <intent-filter>
@@ -24,6 +24,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".presentation.animeDetail.AnimeDetailActivity"
+            android:theme="@style/Theme.MyAnimeList"
+            android:hardwareAccelerated="true"
+            android:exported="false" />
     </application>
 
 </manifest>

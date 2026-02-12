@@ -1,5 +1,6 @@
 package com.yta.myanimelist.presentation.animeListing
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,7 +43,8 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun AnimeListingScreen(
     viewModel: AnimeListingViewModel = koinViewModel(),
-    showToast: (String) -> Unit
+    showToast: (String) -> Unit,
+    onAnimeClicked: (Long) -> Unit
 ) {
     LaunchedEffect(Unit) {
         viewModel.errors.collect {
@@ -56,7 +58,8 @@ fun AnimeListingScreen(
 
     AnimeListingLayout(
         animeList = viewModel.animeList.collectAsStateWithLifecycle(),
-        isLoading = viewModel.isLoading.collectAsStateWithLifecycle()
+        isLoading = viewModel.isLoading.collectAsStateWithLifecycle(),
+        onAnimeClicked = onAnimeClicked
     )
 }
 
@@ -64,7 +67,8 @@ fun AnimeListingScreen(
 @Composable
 fun AnimeListingLayout(
     animeList: State<List<AnimeData>>,
-    isLoading: State<Boolean>
+    isLoading: State<Boolean>,
+    onAnimeClicked: (Long) -> Unit
 ) {
     Surface(
         modifier = Modifier
@@ -87,7 +91,10 @@ fun AnimeListingLayout(
             ) {
                 animeList.value.forEach { animeData ->
                     item {
-                        AnimeDataLayout(animeData)
+                        AnimeDataLayout(
+                            animeData,
+                            onAnimeClicked
+                        )
                         Spacer(modifier = Modifier.height(8.dp))
                     }
                 }
@@ -104,8 +111,13 @@ fun AnimeListingLayout(
 }
 
 @Composable
-fun AnimeDataLayout(animeData: AnimeData) {
-    Card {
+fun AnimeDataLayout(animeData: AnimeData, onAnimeClicked: (Long) -> Unit) {
+    Card(
+        modifier = Modifier.clickable(
+            onClick = { onAnimeClicked(animeData.id) },
+            interactionSource = null
+        )
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -183,7 +195,8 @@ fun AnimeListingLayoutPreview() {
         )
         AnimeListingLayout(
             animeList = remember { mutableStateOf(fakeAnimeList) },
-            isLoading = remember { mutableStateOf(false) }
+            isLoading = remember { mutableStateOf(false) },
+            onAnimeClicked = {}
         )
     }
 }

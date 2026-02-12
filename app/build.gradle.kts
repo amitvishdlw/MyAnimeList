@@ -65,6 +65,13 @@ dependencies {
     // OkHttp
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
+    // Material Icons
+    implementation(libs.androidx.compose.material.icons.extended)
+
+
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.activity)
 
 
 

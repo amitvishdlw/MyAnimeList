@@ -4,10 +4,15 @@ import com.yta.myanimelist.domain.models.AnimeData
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+
+@Serializable
+data class AnimeDetailDto(
+    @SerialName("data") val data: AnimeMetaData
+)
 @Serializable
 data class AnimeMetaData(
     @SerialName("mal_id") val id: Long,
-    @SerialName("title_english") val title: String? = null,
+    @SerialName("title") val title: String? = null,
     @SerialName("episodes") val episodes: Int? = null,
     @SerialName("score") val score: Double? = null,
     @SerialName("synopsis") val synopsis: String? = null,

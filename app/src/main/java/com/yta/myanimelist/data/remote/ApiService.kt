@@ -1,6 +1,6 @@
 package com.yta.myanimelist.data.remote
 
-import com.yta.myanimelist.data.models.AnimeMetaData
+import com.yta.myanimelist.data.models.AnimeDetailDto
 import com.yta.myanimelist.data.models.TopAnimeResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -12,6 +12,6 @@ interface ApiService {
 
     @GET("anime/{anime_id}")
     suspend fun getAnimeDetail(
-        @Path("anime_id") animeId: Int
-    ): Response<AnimeMetaData>
+        @Path("anime_id") animeId: Long
+    ): Response<AnimeDetailDto>
 }

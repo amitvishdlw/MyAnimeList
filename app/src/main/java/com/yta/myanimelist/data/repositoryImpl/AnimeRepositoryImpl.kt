@@ -23,14 +23,14 @@ class AnimeRepositoryImpl(
         return@tryNetworkCallForResource Resource.errorGeneric()
     }
 
-    override suspend fun getAnimeDetail(animeId: Int): Resource<AnimeData> =
+    override suspend fun getAnimeDetail(animeId: Long): Resource<AnimeData> =
         tryNetworkCallForResource {
-        val httpResponse = apiService.getAnimeDetail(animeId)
-        if (httpResponse.isSuccessful) {
-            httpResponse.body()?.let {
-                return@tryNetworkCallForResource Resource.success(it.toAnimeData())
+            val httpResponse = apiService.getAnimeDetail(animeId)
+            if (httpResponse.isSuccessful) {
+                httpResponse.body()?.let {
+                    return@tryNetworkCallForResource Resource.success(it.data.toAnimeData())
+                }
             }
-        }
             return@tryNetworkCallForResource Resource.errorGeneric()
         }
 

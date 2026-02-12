@@ -6,5 +6,5 @@ import com.yta.myanimelist.domain.util.Resource
 interface AnimeRepository {
     suspend fun getTopAnime(): Resource<List<AnimeData>>
 
-    suspend fun getAnimeDetail(animeId: Int): Resource<AnimeData>
+    suspend fun getAnimeDetail(animeId: Long): Resource<AnimeData>
 }
