@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -49,8 +50,17 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
 
+    // Retrofit for API calls
+    implementation(libs.retrofit)
+    // Kotlin Serialization JSON
+    implementation(libs.kotlinx.serialization.json)
+    // Kotlin Serialization Converter
+    implementation(libs.converter.kotlinx.serialization)
     // Dependency Injection
     implementation(libs.koin.android)
+    // OkHttp
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
 
 
 
