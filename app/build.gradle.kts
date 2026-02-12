@@ -56,8 +56,12 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     // Kotlin Serialization Converter
     implementation(libs.converter.kotlinx.serialization)
-    // Dependency Injection
+    // Koin Dependency Injection
     implementation(libs.koin.android)
+    // Koin for Compose
+    implementation(libs.koin.androidx.compose)
+    // Coil for Compose
+    implementation(libs.coil.compose)
     // OkHttp
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)

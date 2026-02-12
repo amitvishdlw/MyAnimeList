@@ -1,4 +1,4 @@
-package com.yta.myanimelist.ui.theme
+package com.yta.myanimelist.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

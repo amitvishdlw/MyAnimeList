@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyAnimeList">
         <activity
-            android:name=".MainActivity"
+            android:name=".AnimeListingActivity"
             android:exported="true"
             android:theme="@style/Theme.MyAnimeList">
             <intent-filter>

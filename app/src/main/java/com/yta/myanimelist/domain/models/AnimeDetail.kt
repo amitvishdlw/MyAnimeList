@@ -3,7 +3,7 @@ package com.yta.myanimelist.domain.models
 data class AnimeData(
     val id: Long,
     val title: String? = null,
-    val rating: String? = null,
+    val rating: Double? = null,
     val posterImageUrl: String? = null,
     val trailerLink: String? = null,
     val plot: String? = null,

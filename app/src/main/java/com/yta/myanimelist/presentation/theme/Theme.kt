@@ -1,4 +1,4 @@
-package com.yta.myanimelist.ui.theme
+package com.yta.myanimelist.presentation.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

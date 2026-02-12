@@ -9,7 +9,7 @@ data class AnimeMetaData(
     @SerialName("mal_id") val id: Long,
     @SerialName("title_english") val title: String? = null,
     @SerialName("episodes") val episodes: Int? = null,
-    @SerialName("rating") val rating: String? = null,
+    @SerialName("score") val score: Double? = null,
     @SerialName("synopsis") val synopsis: String? = null,
     @SerialName("images") val images: ImagesDto? = null,
     @SerialName("trailer") val trailer: Trailer? = null,
@@ -53,7 +53,7 @@ data class AnimeMetaData(
 fun AnimeMetaData.toAnimeData() = AnimeData(
     id = id,
     title = title,
-    rating = rating,
+    rating = score,
     posterImageUrl = images?.webp?.imageUrl ?: images?.jpg?.imageUrl,
     trailerLink = trailer?.embedUrl,
     plot = synopsis,
