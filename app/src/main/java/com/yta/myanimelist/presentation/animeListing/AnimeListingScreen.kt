@@ -110,6 +110,16 @@ fun AnimeListingLayout(
                 state = listState,
                 contentPadding = PaddingValues(8.dp)
             ) {
+                if (animeList.value.isEmpty() && !isLoading.value) {
+                    item {
+                        Text(
+                            text = "Please connect to Internet to see top anime titles",
+                            style = MaterialTheme.typography.headlineSmall,
+                            modifier = Modifier.padding(16.dp)
+                        )
+                    }
+                }
+
                 animeList.value.forEach { animeData ->
                     item {
                         AnimeDataLayout(
