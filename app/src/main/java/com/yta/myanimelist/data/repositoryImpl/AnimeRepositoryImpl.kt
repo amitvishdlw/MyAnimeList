@@ -13,8 +13,11 @@ class AnimeRepositoryImpl(
     private val apiService: ApiService,
     private val networkUtils: NetworkUtils
 ) : AnimeRepository {
-    override suspend fun getTopAnime(): Resource<List<AnimeData>> = tryNetworkCallForResource {
-        val httpResponse = apiService.getTopAnime()
+    override suspend fun getTopAnime(page: Int, limit: Int): Resource<List<AnimeData>> = tryNetworkCallForResource {
+        val httpResponse = apiService.getTopAnime(
+            page = page,
+            limit = limit
+        )
         if (httpResponse.isSuccessful) {
             httpResponse.body()?.data?.let { animeList ->
                 return@tryNetworkCallForResource Resource.success(animeList.map { it.toAnimeData() })

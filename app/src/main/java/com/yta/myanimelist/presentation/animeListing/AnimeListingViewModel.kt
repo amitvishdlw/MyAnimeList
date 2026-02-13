@@ -8,11 +8,13 @@ import com.yta.myanimelist.domain.util.GenericStatusCode
 import com.yta.myanimelist.domain.util.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class AnimeListingViewModel(
@@ -25,15 +27,35 @@ class AnimeListingViewModel(
     private val _errors: MutableSharedFlow<String?> = MutableSharedFlow()
     val errors = _errors.asSharedFlow()
 
+    private val nextPage = MutableStateFlow(1)
+
     private val _animeList = MutableStateFlow<List<AnimeData>>(emptyList())
     val animeList: StateFlow<List<AnimeData>> = _animeList
 
-    fun fetchTopAnimes() {
+    fun fetchTopAnimesAsync() {
         viewModelScope.launch(ioDispatcher) {
             _isLoading.value = true
-            when (val resource = repo.getTopAnime()) {
+            fetchTopAnimes(page = nextPage.value)
+            _isLoading.value = false
+        }
+    }
+
+    private suspend fun fetchTopAnimes(page: Int) {
+        var isSuccess = false
+        var exponentialBackOff = 0L
+
+        while (!isSuccess) {
+            delay(exponentialBackOff)
+
+            when (val resource = repo.getTopAnime(
+                page = page,
+                limit = PAGE_LIMIT
+            )) {
                 is Resource.Success -> {
-                    _animeList.value = resource.data
+                    _animeList.update { it + resource.data }
+                    nextPage.update { it + 1 }
+
+                    isSuccess = true
                 }
 
                 is Resource.Error -> {
@@ -43,9 +65,18 @@ class AnimeListingViewModel(
                         "Please connect to Internet"
                     }
                     _errors.emit(errorMsg)
+
+                    exponentialBackOff = if (exponentialBackOff == 0L) {
+                        1000L
+                    } else {
+                        2 * exponentialBackOff
+                    }
                 }
             }
-            _isLoading.value = false
         }
+    }
+
+    companion object {
+        private const val PAGE_LIMIT = 25
     }
 }

@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,6 +30,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -38,6 +40,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.yta.myanimelist.domain.models.AnimeData
 import com.yta.myanimelist.presentation.theme.MyAnimeListTheme
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -52,14 +56,11 @@ fun AnimeListingScreen(
         }
     }
 
-    LaunchedEffect(Unit) {
-        viewModel.fetchTopAnimes()
-    }
-
     AnimeListingLayout(
         animeList = viewModel.animeList.collectAsStateWithLifecycle(),
         isLoading = viewModel.isLoading.collectAsStateWithLifecycle(),
-        onAnimeClicked = onAnimeClicked
+        onAnimeClicked = onAnimeClicked,
+        onFetchNextPage = viewModel::fetchTopAnimesAsync
     )
 }
 
@@ -68,7 +69,8 @@ fun AnimeListingScreen(
 fun AnimeListingLayout(
     animeList: State<List<AnimeData>>,
     isLoading: State<Boolean>,
-    onAnimeClicked: (Long) -> Unit
+    onAnimeClicked: (Long) -> Unit,
+    onFetchNextPage: () -> Unit
 ) {
     Surface(
         modifier = Modifier
@@ -85,8 +87,27 @@ fun AnimeListingLayout(
                     )
                 }
             )
+
+            val listState = rememberLazyListState()
+
+            LaunchedEffect(Unit) {
+                snapshotFlow {
+                    val lastVisible = listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
+                    val lastIndex = animeList.value.lastIndex
+                    lastVisible == null || lastVisible >= lastIndex
+                }
+                    .distinctUntilChanged()
+                    .filter { it }
+                    .collect {
+                        if (!isLoading.value) {
+                            onFetchNextPage()
+                        }
+                    }
+            }
+
             LazyColumn(
                 modifier = Modifier,
+                state = listState,
                 contentPadding = PaddingValues(8.dp)
             ) {
                 animeList.value.forEach { animeData ->
@@ -196,7 +217,8 @@ fun AnimeListingLayoutPreview() {
         AnimeListingLayout(
             animeList = remember { mutableStateOf(fakeAnimeList) },
             isLoading = remember { mutableStateOf(false) },
-            onAnimeClicked = {}
+            onAnimeClicked = {},
+            onFetchNextPage = {}
         )
     }
 }

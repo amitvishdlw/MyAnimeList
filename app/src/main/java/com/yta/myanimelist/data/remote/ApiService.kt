@@ -5,10 +5,14 @@ import com.yta.myanimelist.data.models.TopAnimeResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
     @GET("top/anime")
-    suspend fun getTopAnime(): Response<TopAnimeResponse>
+    suspend fun getTopAnime(
+        @Query("page") page: Int,
+        @Query("limit") limit: Int
+    ): Response<TopAnimeResponse>
 
     @GET("anime/{anime_id}")
     suspend fun getAnimeDetail(
