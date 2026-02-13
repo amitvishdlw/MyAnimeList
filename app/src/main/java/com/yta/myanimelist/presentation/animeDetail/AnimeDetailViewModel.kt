@@ -10,9 +10,11 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class AnimeDetailViewModel(
@@ -26,16 +28,18 @@ class AnimeDetailViewModel(
     private val _errors: MutableSharedFlow<String?> = MutableSharedFlow()
     val errors = _errors.asSharedFlow()
 
-    private val _animeData = MutableStateFlow<AnimeData?>(null)
+    private val _animeData = repo.getAnimeDetail(animeId).stateIn(
+        viewModelScope,
+        initialValue = null,
+        started = SharingStarted.WhileSubscribed(5000)
+    )
     val animeData: StateFlow<AnimeData?> = _animeData
 
     fun fetchAnime() {
         viewModelScope.launch(ioDispatcher) {
             _isLoading.value = true
-            when (val resource = repo.getAnimeDetail(animeId)) {
-                is Resource.Success -> {
-                    _animeData.value = resource.data
-                }
+            when (val resource = repo.fetchAnimeDetail(animeId)) {
+                is Resource.Success -> {}
 
                 is Resource.Error -> {
                     val errorMsg = if (resource.statusCode != GenericStatusCode.NoInternet) {

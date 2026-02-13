@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -73,6 +74,10 @@ dependencies {
     implementation(libs.logging.interceptor)
     // Material Icons
     implementation(libs.androidx.compose.material.icons.extended)
+    // Room DB
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 
 
     implementation(libs.androidx.appcompat)

@@ -2,12 +2,17 @@ package com.yta.myanimelist.domain
 
 import com.yta.myanimelist.domain.models.AnimeData
 import com.yta.myanimelist.domain.util.Resource
+import kotlinx.coroutines.flow.Flow
 
 interface AnimeRepository {
-    suspend fun getTopAnime(
+    fun getTopAnime(): Flow<List<AnimeData>>
+
+    suspend fun fetchTopAnime(
         page: Int,
         limit: Int
-    ): Resource<List<AnimeData>>
+    ): Resource<Unit>
 
-    suspend fun getAnimeDetail(animeId: Long): Resource<AnimeData>
+    fun getAnimeDetail(animeId: Long): Flow<AnimeData>
+
+    suspend fun fetchAnimeDetail(animeId: Long): Resource<Unit>
 }

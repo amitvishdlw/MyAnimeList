@@ -12,6 +12,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:hardwareAccelerated="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyAnimeList">
         <activity
@@ -28,7 +29,6 @@
         <activity
             android:name=".presentation.animeDetail.AnimeDetailActivity"
             android:theme="@style/Theme.MyAnimeList"
-            android:hardwareAccelerated="true"
             android:exported="false" />
     </application>
 

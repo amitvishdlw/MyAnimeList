@@ -11,9 +11,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -29,7 +31,11 @@ class AnimeListingViewModel(
 
     private val nextPage = MutableStateFlow(1)
 
-    private val _animeList = MutableStateFlow<List<AnimeData>>(emptyList())
+    private val _animeList = repo.getTopAnime().stateIn(
+        scope = viewModelScope,
+        initialValue = emptyList(),
+        started = SharingStarted.WhileSubscribed(5000)
+    )
     val animeList: StateFlow<List<AnimeData>> = _animeList
 
     fun fetchTopAnimesAsync() {
@@ -47,12 +53,11 @@ class AnimeListingViewModel(
         while (!isSuccess) {
             delay(exponentialBackOff)
 
-            when (val resource = repo.getTopAnime(
+            when (val resource = repo.fetchTopAnime(
                 page = page,
                 limit = PAGE_LIMIT
             )) {
                 is Resource.Success -> {
-                    _animeList.update { it + resource.data }
                     nextPage.update { it + 1 }
 
                     isSuccess = true

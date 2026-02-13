@@ -23,10 +23,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
@@ -71,7 +71,7 @@ fun AnimeDetailLayout(
     onBackClick: () -> Unit
 ) {
     animeData.value?.let { data ->
-        Surface(
+        Box(
             modifier = Modifier
                 .systemBarsPadding()
                 .safeContentPadding()
@@ -102,6 +102,12 @@ fun AnimeDetailLayout(
 
                         val webView = remember {
                             getYoutubeIFrameWebView(context, data.trailerLink)
+                        }
+
+                        DisposableEffect(Unit) {
+                            onDispose {
+                                webView.destroy()
+                            }
                         }
 
                         AndroidView(
@@ -155,12 +161,11 @@ fun AnimeDetailLayout(
                         )
                     }
                 }
+            }
 
-
-                if (isLoading.value) {
-                    Box(modifier = Modifier.fillMaxSize()) {
-                        CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-                    }
+            if (isLoading.value) {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 }
             }
         }
