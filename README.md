@@ -9,12 +9,12 @@ and watch **trailers** seamlessly.
 
 ## ✨ Features
 
--   📜 Unlimited / Infinite Anime Scrolling\
--   🎬 Anime Detail Screen with Trailer Support\
--   🖼 High-quality Anime Posters using Coil\
--   💾 Offline Caching using Room Database\
--   ⚡ Fast API Fetching with Retrofit\
--   🧩 Clean MVVM Architecture\
+-   📜 Unlimited / Infinite Anime Scrolling
+-   🎬 Anime Detail Screen with Trailer Support
+-   🖼 High-quality Anime Posters using Coil
+-   💾 Offline Caching using Room Database
+-   ⚡ Fast API Fetching with Retrofit
+-   🧩 Clean MVVM Architecture
 -   💉 Dependency Injection with Koin
 
 ------------------------------------------------------------------------
@@ -37,19 +37,19 @@ This project follows **MVVM (Model - View - ViewModel)** architecture.
 
 ### 🧱 Architecture
 
--   MVVM Architecture\
--   Repository Pattern\
+-   MVVM Architecture
+-   Repository Pattern
 -   Clean Separation of Concerns
 
 ### 📚 Libraries Used
 
-  Library and Purpose\
-  -----------------------------------------------\
+  Library and Purpose
+  ----------------------------------------------------------------------
   Koin for Dependency Injection\
   Retrofit for Network API Calls\
   Room for Local Database Persistence\
   Coil for Image Loading\
-  Coroutines + Flow for Async Programming\
+  Coroutines + Flow for Async Programming
 
 ------------------------------------------------------------------------
 
@@ -57,14 +57,14 @@ This project follows **MVVM (Model - View - ViewModel)** architecture.
 
 ### 🔍 Anime List
 
--   Paginated / Infinite scrolling list\
--   Loads data from API\
+-   Paginated / Infinite scrolling list
+-   Loads data from API
 -   Caches data locally
 
 ### 📖 Anime Details
 
--   Full anime information\
--   Trailer playback support\
+-   Full anime information
+-   Trailer playback support
 -   Poster and metadata display
 
 ------------------------------------------------------------------------
@@ -73,10 +73,10 @@ This project follows **MVVM (Model - View - ViewModel)** architecture.
 
 ### Prerequisites
 
--   Android Studio Latest Version\
--   Kotlin\
--   Minimum SDK: (Add yours)\
--   Target SDK: (Add yours)
+-   Android Studio Latest Version
+-   Kotlin
+-   Minimum SDK: 25
+-   Target SDK: 36
 
 ------------------------------------------------------------------------
 
