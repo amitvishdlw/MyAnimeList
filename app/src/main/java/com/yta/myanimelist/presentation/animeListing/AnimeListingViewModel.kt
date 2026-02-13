@@ -2,6 +2,7 @@ package com.yta.myanimelist.presentation.animeListing
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.yta.myanimelist.data.remote.NetworkUtils
 import com.yta.myanimelist.domain.AnimeRepository
 import com.yta.myanimelist.domain.models.AnimeData
 import com.yta.myanimelist.domain.util.GenericStatusCode
@@ -22,6 +23,7 @@ import kotlinx.coroutines.launch
 class AnimeListingViewModel(
     private val repo: AnimeRepository,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    private val networkUtils: NetworkUtils
 ) : ViewModel() {
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
@@ -50,7 +52,7 @@ class AnimeListingViewModel(
         var isSuccess = false
         var exponentialBackOff = 0L
 
-        while (!isSuccess) {
+        while (!isSuccess && networkUtils.isNetworkAvailable()) {
             delay(exponentialBackOff)
 
             when (val resource = repo.fetchTopAnime(

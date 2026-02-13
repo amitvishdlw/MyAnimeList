@@ -9,8 +9,9 @@ import org.koin.dsl.module
 val viewModelModule = module {
     viewModel {
         AnimeListingViewModel(
-            get(),
-            Dispatchers.IO
+            repo = get(),
+            ioDispatcher = Dispatchers.IO,
+            networkUtils = get()
         )
     }
 

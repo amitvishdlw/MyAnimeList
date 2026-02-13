@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 class AnimeDetailViewModel(
     private val animeId: Long,
     private val repo: AnimeRepository,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
