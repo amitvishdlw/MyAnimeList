@@ -96,9 +96,10 @@ git clone https://github.com/amitvishdlw/MyAnimeList.git
 
 ## 📸 Screenshots
 
-<img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/b5cae5e9-d37c-4bb1-a8b9-8dc8452cbcef" />
-
-<img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/ea926afc-d388-4712-8573-cb84d6aa3424" />
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b5cae5e9-d37c-4bb1-a8b9-8dc8452cbcef" width="45%" />
+  <img src="https://github.com/user-attachments/assets/ea926afc-d388-4712-8573-cb84d6aa3424" width="45%" />
+</p>
 
 
 
